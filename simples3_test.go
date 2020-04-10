@@ -13,6 +13,7 @@ import (
 type tConfig struct {
 	AccessKey string
 	SecretKey string
+	Token     string
 	Endpoint  string
 	Region    string
 }
@@ -80,7 +81,7 @@ func TestS3_FileUpload(t *testing.T) {
 	for _, testcase := range tests {
 		tt := testcase
 		t.Run(tt.name, func(t *testing.T) {
-			s3 := New(tt.fields.Region, tt.fields.AccessKey, tt.fields.SecretKey)
+			s3 := New(tt.fields.Region, tt.fields.AccessKey, tt.fields.SecretKey, tt.fields.Token)
 			s3.SetEndpoint(tt.fields.Endpoint)
 			resp, err := s3.FileUpload(tt.args.u)
 			if (err != nil) != tt.wantErr {
@@ -164,7 +165,7 @@ func TestS3_FileDownload(t *testing.T) {
 	for _, testcase := range tests {
 		tt := testcase
 		t.Run(tt.name, func(t *testing.T) {
-			s3 := New(tt.fields.Region, tt.fields.AccessKey, tt.fields.SecretKey)
+			s3 := New(tt.fields.Region, tt.fields.AccessKey, tt.fields.SecretKey, tt.fields.Token)
 			s3.SetEndpoint(tt.fields.Endpoint)
 			resp, err := s3.FileDownload(tt.args.u)
 			if (err != nil) != tt.wantErr {
@@ -231,7 +232,7 @@ func TestS3_FileDelete(t *testing.T) {
 	for _, testcase := range tests {
 		tt := testcase
 		t.Run(tt.name, func(t *testing.T) {
-			s3 := New(tt.fields.Region, tt.fields.AccessKey, tt.fields.SecretKey)
+			s3 := New(tt.fields.Region, tt.fields.AccessKey, tt.fields.SecretKey, tt.fields.Token)
 			s3.SetEndpoint(tt.fields.Endpoint)
 			if err := s3.FileDelete(tt.args.u); (err != nil) != tt.wantErr {
 				t.Errorf("S3.FileDelete() error = %v, wantErr %v", err, tt.wantErr)

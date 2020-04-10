@@ -28,6 +28,7 @@ type S3 struct {
 	AccessKey string
 	SecretKey string
 	Region    string
+	Token     string
 	Client    *http.Client
 
 	Endpoint  string
@@ -84,11 +85,12 @@ type IAMResponse struct {
 }
 
 // New returns an instance of S3.
-func New(region, accessKey, secretKey string) *S3 {
+func New(region, accessKey, secretKey, token string) *S3 {
 	return &S3{
 		Region:    region,
 		AccessKey: accessKey,
 		SecretKey: secretKey,
+		Token:     token,
 
 		URIFormat: "https://s3.%s.amazonaws.com/%s",
 	}
@@ -139,6 +141,7 @@ func newUsingIAMImpl(baseURL, region string) (*S3, error) {
 		Region:    region,
 		AccessKey: jsonResp.AccessKeyID,
 		SecretKey: jsonResp.SecretAccessKey,
+		Token:     jsonResp.Token,
 
 		URIFormat: "https://s3.%s.amazonaws.com/%s",
 	}, nil
